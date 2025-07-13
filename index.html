@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mars Travel Guide - Your Gateway to the Red Planet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated background stars */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* Header */
+        header {
+            background: rgba(15, 15, 35, 0.9);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ff6b35;
+            text-shadow: 0 0 10px rgba(255, 107, 53, 0.5);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ff6b35;
+        }
+
+        /* Main content */
+        main {
+            margin-top: 80px;
+            padding: 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><circle cx="600" cy="300" r="200" fill="%23ff6b35" opacity="0.3"/><circle cx="200" cy="150" r="50" fill="%23ffffff" opacity="0.1"/><circle cx="1000" cy="100" r="30" fill="%23ffffff" opacity="0.2"/></svg>');
+            background-size: cover;
+            background-position: center;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px rgba(255, 107, 53, 0.5); }
+            to { text-shadow: 0 0 30px rgba(255, 107, 53, 0.8); }
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.5);
+        }
+
+        /* Content sections */
+        .content-section {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .content-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #ff6b35;
+            text-align: center;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.2);
+        }
+
+        .content-card h3 {
+            color: #f7931e;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .content-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .content-card li {
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .content-card li:before {
+            content: "🚀";
+            position: absolute;
+            left: 0;
+        }
+
+        /* Mars image placeholder */
+        .mars-image {
+            width: 100%;
+            height: 300px;
+            background: radial-gradient(circle at 30% 30%, #ff6b35 0%, #d2691e 50%, #8b4513 100%);
+            border-radius: 50%;
+            margin: 2rem auto;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(255, 107, 53, 0.5);
+        }
+
+        .mars-image::before {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 20%;
+            width: 30px;
+            height: 30px;
+            background: #8b4513;
+            border-radius: 50%;
+            box-shadow: 
+                40px 60px 0 #8b4513,
+                -20px 80px 0 #a0522d,
+                60px -10px 0 #8b4513,
+                -30px 30px 0 #a0522d;
+        }
+
+        /* Chatbot styles */
+        .chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: rgba(15, 15, 35, 0.95);
+            border-radius: 15px;
+            border: 2px solid #ff6b35;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1000;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .chatbot-container.open {
+            transform: translateY(0);
+        }
+
+        .chatbot-header {
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chatbot-title {
+            font-weight: bold;
+            color: white;
+        }
+
+        .chatbot-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            max-height: 350px;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+
+        .user-message {
+            background: #ff6b35;
+            color: white;
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .bot-message {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            margin-right: auto;
+        }
+
+        .chatbot-input {
+            padding: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .chatbot-input input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            outline: none;
+        }
+
+        .chatbot-input input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .chat-toggle-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            z-index: 1001;
+        }
+
+        .chat-toggle-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.5);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .chatbot-container {
+                width: 300px;
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated stars background -->
+    <div class="stars" id="stars"></div>
+
+    <header>
+        <nav>
+            <div class="logo">🚀 Mars Travel Guide</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#visa">Visa Info</a></li>
+                <li><a href="#travel">Travel</a></li>
+                <li><a href="#itinerary">Itinerary</a></li>
+                <li><a href="#policies">Policies</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <h1>Welcome to Mars</h1>
+            <p>Your ultimate guide to interplanetary travel and exploration of the Red Planet</p>
+            <a href="#visa" class="cta-button">Start Your Journey</a>
+        </section>
+
+        <div class="mars-image"></div>
+
+        <section class="content-section" id="visa">
+            <h2>🛂 Visa Requirements</h2>
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>Martian Visitor's Visa (MVV)</h3>
+                    <p>Essential documentation for your Red Planet adventure:</p>
+                    <ul>
+                        <li>Valid Earth Passport (extends beyond return date)</li>
+                        <li>Proof of Galactic Citizenship</li>
+                        <li>Martian Language Proficiency Test</li>
+                        <li>Alien Abduction Insurance (1 in 10 million risk)</li>
+                    </ul>
+                    <p><strong>Pro Tip:</strong> Expedite processing with Earth chocolate - Martians love cocoa!</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section" id="travel">
+            <h2>🚫 Travel Restrictions</h2>
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>What You Need to Know</h3>
+                    <ul>
+                        <li>No carry-on meteorites over 10kg</li>
+                        <li>Earth plants strictly banned (remember the potato incident of 2035!)</li>
+                        <li>Avoid Southern Polar Ice Cap Zone (haunted by rogue AI)</li>
+                        <li>No pet dinosaurs - sandworms hate competition</li>
+                    </ul>
+                    <p><strong>Warning:</strong> Violations may result in space ejection or permanent Martian citizenship!</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section" id="itinerary">
+            <h2>🗓️ Sample Itinerary</h2>
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>A Perfect Martian Day</h3>
+                    <ul>
+                        <li><strong>07:00 AM:</strong> Double sunrise over Olympus Mons</li>
+                        <li><strong>08:30 AM:</strong> Breakfast with Dehydrated Space Oats</li>
+                        <li><strong>10:00 AM:</strong> Valles Marineris Canyon tour</li>
+                        <li><strong>12:00 PM:</strong> Lunch break (bring extra oxygen!)</li>
+                        <li><strong>02:00 PM:</strong> Crater hopping and Face on Mars selfies</li>
+                        <li><strong>06:00 PM:</strong> Zero-gravity dance party at Martian Base Lodge</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section" id="policies">
+            <h2>🏢 Corporate Travel Policies</h2>
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3>Business Trip Guidelines</h3>
+                    <ul>
+                        <li><strong>Expenses:</strong> Oxygen tanks reimbursable, lava-proof boots optional</li>
+                        <li><strong>Space Lag:</strong> 1 extra Earth day for adjustment</li>
+                        <li><strong>Alien Clients:</strong> Stay professional, avoid probing jokes</li>
+                        <li><strong>Equipment:</strong> Lost ray guns come out of your paycheck</li>
+                    </ul>
+                    <p>Remember: Martian business trips test your ability to stay calm under pressure!</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Chatbot -->
+    <button class="chat-toggle-btn" onclick="toggleChatbot()">💬</button>
+    
+    <div class="chatbot-container" id="chatbot">
+        <div class="chatbot-header">
+            <span class="chatbot-title">Mars Travel Assistant</span>
+            <button class="chatbot-toggle" onclick="toggleChatbot()">✕</button>
+        </div>
+        <div class="chatbot-messages" id="chatMessages">
+            <div class="message bot-message">
+                Hello! I'm your Mars Travel Assistant. Ask me anything about visas, travel restrictions, itineraries, or corporate policies for your Mars adventure! 🚀
+            </div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="userInput" placeholder="Ask me about Mars travel..." onkeypress="handleKeyPress(event)">
+        </div>
+    </div>
+
+    <script>
+        // Create animated stars
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Toggle chatbot
+        function toggleChatbot() {
+            const chatbot = document.getElementById('chatbot');
+            chatbot.classList.toggle('open');
+        }
+
+        // Handle enter key press
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Send message function (placeholder for Lex integration)
+        function sendMessage() {
+            const input = document.getElementById('userInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                // Add user message to chat
+                addMessage(message, 'user');
+                input.value = '';
+                
+                // This is where you'll integrate with AWS Lex
+                // For now, we'll add a placeholder response
+                setTimeout(() => {
+                    addMessage("I'm ready to help! Once you connect me to AWS Lex, I'll provide detailed answers about Mars travel.", 'bot');
+                }, 500);
+            }
+        }
+
+        // Add message to chat
+        function addMessage(message, sender) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            messageDiv.textContent = message;
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Initialize
+        createStars();
+        
+        // Placeholder for AWS Lex integration
+        // This function will be replaced with actual Lex integration
+        function initializeLexBot() {
+            // AWS Lex integration code will go here
+            console.log('Ready for AWS Lex integration');
+        }
+
+        // Call initialization
+        initializeLexBot();
+    </script>
+    <!-- Add this before the closing </body> tag -->
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.24.min.js"></script>
+<script>
+    // Configure AWS SDK
+    AWS.config.region = 'us-west-2'; // Change to your region
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+        IdentityPoolId: 'us-west-2:cb609749-df66-4faf-8afb-275c994fe1ff', // Replace with your Identity Pool ID
+    });
+
+    // Initialize Lex Runtime
+    const lexruntime = new AWS.LexRuntimeV2();
+
+    // Your bot configuration
+    const botConfig = {
+        botId: '0HQVCETOXI', // Replace with your bot ID
+        botAliasId: 'TestBotAlias', // Or your specific alias ID
+        localeId: 'en_US',
+        sessionId: 'user-session-' + Date.now()
+    };
+
+    // Send message to Lex
+    function sendToLex(message) {
+        const params = {
+            botId: botConfig.botId,
+            botAliasId: botConfig.botAliasId,
+            localeId: botConfig.localeId,
+            sessionId: botConfig.sessionId,
+            text: message
+        };
+
+        lexruntime.recognizeText(params, (err, data) => {
+            if (err) {
+                console.error('Error:', err);
+                addMessage('Sorry, I encountered an error. Please try again.', 'bot');
+            } else {
+                // Handle Lex response
+                if (data.messages && data.messages.length > 0) {
+                    data.messages.forEach(msg => {
+                        addMessage(msg.content, 'bot');
+                    });
+                } else {
+                    addMessage('I didn\'t understand that. Can you please rephrase?', 'bot');
+                }
+            }
+        });
+    }
+
+    // Updated sendMessage function
+    function sendMessage() {
+        const input = document.getElementById('userInput');
+        const message = input.value.trim();
+        
+        if (message) {
+            // Add user message to chat
+            addMessage(message, 'user');
+            input.value = '';
+            
+            // Send to Lex
+            sendToLex(message);
+        }
+    }
+</script>
+</body>
+</html>
