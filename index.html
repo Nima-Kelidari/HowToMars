@@ -557,21 +557,21 @@
 <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.24.min.js"></script>
 <script>
     // Configure AWS SDK
-    AWS.config.region = 'us-west-2'; // Change to your region
-    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-        IdentityPoolId: 'us-west-2:cb609749-df66-4faf-8afb-275c994fe1ff', // Replace with your Identity Pool ID
-    });
+    AWS.config.region = process.env.REACT_APP_AWS_REGION || 'us-west-2';
+AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: process.env.REACT_APP_IDENTITY_POOL_ID,
+});
 
     // Initialize Lex Runtime
     const lexruntime = new AWS.LexRuntimeV2();
 
     // Your bot configuration
     const botConfig = {
-        botId: '0HQVCETOXI', // Replace with your bot ID
-        botAliasId: 'TestBotAlias', // Or your specific alias ID
-        localeId: 'en_US',
-        sessionId: 'user-session-' + Date.now()
-    };
+    botId: process.env.REACT_APP_BOT_ID,
+    botAliasId: process.env.REACT_APP_BOT_ALIAS_ID,
+    localeId: 'en_US',
+    sessionId: 'user-session-' + Date.now()
+};
 
     // Send message to Lex
     function sendToLex(message) {
